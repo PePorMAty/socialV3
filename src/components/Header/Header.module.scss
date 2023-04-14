@@ -1,0 +1,33 @@
+.header {
+  grid-area: header;
+  background-color: rgb(111, 111, 212);
+  color: #fff;
+}
+.logo{
+  width: 50px;
+  height: 50px;
+  padding: 5px 10px;
+}
+.loginBlock{
+  float: right;
+  padding: 15px;
+}
+.loginBtn{
+  color: #fff;
+  font-size: 20px;
+  margin-right: 20px;
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  &:hover{
+    color: #b7b2b2;
+  }
+}
+.authBlock{
+  display: flex;
+}
+.login{
+  margin-right: 40px;
+}

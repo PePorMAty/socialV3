@@ -1,0 +1,19 @@
+.nav {
+  grid-area: nav;
+  background-color: rgb(171, 65, 65);
+}
+.navLink{
+  margin-bottom: 5px;
+  text-decoration: none;
+  list-style: none;
+  cursor: pointer;
+  color: inherit;
+  display: block;
+  &:hover{
+    opacity: 0.5;
+  }
+}
+.active{
+  color: gold;
+  text-decoration: none;
+}
