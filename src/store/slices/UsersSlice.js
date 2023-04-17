@@ -9,23 +9,34 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+const followUnFollowFlow = async ({
+  id,
+  dispatch,
+  apiMethod,
+  actionCreator,
+}) => {
+  const response = await apiMethod(id);
+
+  if (response.resultCode === 0) {
+    dispatch(actionCreator({ id }));
+  }
+};
+
 export const followUser = createAsyncThunk(
   "user/followUser",
   async function ({ id }, { dispatch }) {
-    const response = await usersAPI.setFollow(id);
-    if (response.resultCode === 0) {
-      dispatch(follow({ id }));
-    }
+    let apiMethod = usersAPI.setFollow.bind(usersAPI);
+    let actionCreator = follow;
+    followUnFollowFlow({ id, dispatch, apiMethod, actionCreator });
   }
 );
 
 export const unFollowUser = createAsyncThunk(
   "user/unFollowUser",
   async function ({ id }, { dispatch }) {
-    const response = await usersAPI.setUnFollow(id);
-    if (response.resultCode === 0) {
-      dispatch(unFollow({ id }));
-    }
+    let apiMethod = usersAPI.setUnFollow.bind(usersAPI);
+    let actionCreator = unFollow;
+    followUnFollowFlow({ id, dispatch, apiMethod, actionCreator });
   }
 );
 
@@ -46,6 +57,9 @@ const usersSlice = createSlice({
     follow(state, action) {
       return {
         ...state,
+        /* users: updateObjectInArray(state.users, action.payload.id, "id", {
+          followed: true,
+        }), */
         users: state.users.map((u) => {
           if (u.id === action.payload.id) {
             return { ...u, followed: true };

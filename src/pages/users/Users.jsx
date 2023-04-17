@@ -3,12 +3,20 @@ import s from "./Users.module.scss";
 import avatar from "../../assets/avatar.jpg";
 import Preloader from "../../UI/preloader/Preloader";
 import { NavLink } from "react-router-dom";
+import Paginator from "../../UI/paginator/Paginator";
 
 const Users = (props) => {
   return (
     <div className={s.d}>
       {props.isFetching ? <Preloader /> : null}
-      <div className="">
+      <Paginator
+        pagesCount={props.pagesCount}
+        pages={props.pages}
+        currentPage={props.currentPage}
+        onPageChanged={props.setCurrentPage}
+        portionSize={props.portionSize}
+      />
+      {/*  <div className="">
         {props.pages.map((p) => (
           <span
             key={p}
@@ -18,7 +26,7 @@ const Users = (props) => {
             {p}
           </span>
         ))}
-      </div>
+      </div> */}
       {props.users.map((u) => (
         <div key={u.id} className={s.userCard}>
           <div className={s.user}>

@@ -41,12 +41,11 @@ const UsersContainer = () => {
     dispatch(fetchUsers({ currentPage, pageSize }));
   }, [dispatch, currentPage, pageSize]);
 
-  const pagesCount = Math.ceil(totalUsersCount / pageSize);
-  const pages = [];
+  let pagesCount = Math.ceil(totalUsersCount / pageSize);
+  let pages = [];
+
   for (let i = 1; i <= pagesCount; i++) {
-    if (pages.length < 20) {
-      pages.push(i);
-    }
+    pages.push(i);
   }
 
   return (
@@ -58,6 +57,7 @@ const UsersContainer = () => {
       users={users}
       currentPage={currentPage}
       pages={pages}
+      pagesCount={pagesCount}
       inProgress={inProgress}
     />
   );
