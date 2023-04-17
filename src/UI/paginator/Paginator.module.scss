@@ -1,0 +1,29 @@
+.paginator{
+  display: flex;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.selectedPage{
+  color: rgb(40, 74, 197);
+  padding: 5px;
+  cursor: pointer;
+}
+.currentPage{
+  color: red;
+}
+.pageNumber{
+  padding: 5px;
+  cursor: pointer;
+}
+.btn{
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  &:hover{
+    opacity: 0.7;
+  }
+  &:active{
+    opacity: 0.5;
+  }
+}
