@@ -28,7 +28,7 @@ const ProfileStatus = (props) => {
         />
       ) : (
         <div className="" onDoubleClick={() => setEditMode(true)}>
-          {status}
+          Status: {status}
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProfile,
   getStatus,
+  savePhoto,
   updateStatus,
 } from "../../store/slices/profileSlice";
 import { useParams } from "react-router-dom";
@@ -18,9 +19,12 @@ const ProfileContainer = (props) => {
     dispatch(updateStatus(status));
   };
 
+  const savePhotoDispatch = (photos) => {
+    dispatch(savePhoto(photos));
+  };
+
   const { userId } = useParams();
   let currentUserId = userId || 28704;
-
   useEffect(() => {
     dispatch(getStatus(currentUserId));
     dispatch(fetchProfile(currentUserId));
@@ -32,6 +36,8 @@ const ProfileContainer = (props) => {
       profile={profile}
       profileStatus={profileStatus}
       updateStatus={updateStatusDispatch}
+      isOwner={!userId}
+      savePhoto={savePhotoDispatch}
     />
   );
 };

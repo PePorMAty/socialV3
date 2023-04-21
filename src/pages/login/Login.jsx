@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 
 const Login = () => {
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const captcha = useSelector((state) => state.auth.captchaUrl);
 
   if (isAuth === true) {
     return <Navigate to={"/profile/"} />;
@@ -13,7 +14,7 @@ const Login = () => {
   return (
     <div className={s.loginPage}>
       <h1 className={s.title}>Login</h1>
-      <LoginForm />
+      <LoginForm captcha={captcha} />
     </div>
   );
 };

@@ -27,6 +27,27 @@ export const updateStatus = createAsyncThunk(
   }
 );
 
+export const savePhoto = createAsyncThunk(
+  "profile/savePhoto",
+  async function (photos) {
+    const response = await profileAPI.savePhoto(photos);
+    if (response.resultCode === 0) {
+      return response.data;
+    }
+  }
+);
+
+export const saveProfile = createAsyncThunk(
+  "profile/saveContacts",
+  async function (profile, { dispatch, getState }) {
+    const userId = getState().auth.id;
+    const response = await profileAPI.saveProfile(profile);
+    if (response.resultCode === 0) {
+      dispatch(fetchProfile(userId));
+    }
+  }
+);
+
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
@@ -79,6 +100,18 @@ const profileSlice = createSlice({
           : action.payload.status,
       };
     });
+    builder.addCase(savePhoto.fulfilled, (state, action) => {
+      return {
+        ...state,
+        profile: { ...state.profile, photos: action.payload.photos },
+      };
+    });
+    /* builder.addCase(saveProfile.fulfilled, (state, action) => {
+      return {
+        ...state,
+        profile: { ...state.profile, profile: action.payload.profile },
+      };
+    }); */
   },
 });
 

@@ -14,9 +14,11 @@ const Profile = (props) => {
     <div className={s.profilePage}>
       <img src={space} alt="logo" className={s.img} />
       <ProfileInfo
+        isOwner={props.isOwner}
         profile={props.profile}
         updateStatus={props.updateStatus}
         profileStatus={props.profileStatus}
+        savePhoto={props.savePhoto}
       />
       <MyPostsContainer profile={props.profile} />
     </div>

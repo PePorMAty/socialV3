@@ -9,13 +9,18 @@ const validateForm = Yup.object().shape({
   email: Yup.string().email("Invalid email!").required("Required"),
 });
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.auth.error);
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", rememberMe: false }}
+      initialValues={{
+        email: "",
+        password: "",
+        rememberMe: false,
+        captcha: "",
+      }}
       validationSchema={validateForm}
       onSubmit={(values, { setSubmitting }) => {
         dispatch(
@@ -23,6 +28,7 @@ const LoginForm = () => {
             email: values.email,
             password: values.password,
             rememberMe: values.rememberMe,
+            captcha: values.captcha,
           })
         );
         setSubmitting(false);
@@ -30,6 +36,10 @@ const LoginForm = () => {
     >
       {({ isSubmitting, errors }) => (
         <Form action="from" className={s.form}>
+          {props.captcha && <img src={props.captcha} alt={"captcha"}></img>}
+          {props.captcha && (
+            <Field type="text" name="captcha" placeholder="captcha" />
+          )}
           <div className={s.err}>{(errors.email, error)}</div>
           <Field
             type="text"

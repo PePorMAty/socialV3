@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authAPI } from "../../API/api";
+import { authAPI, securityAPI } from "../../API/api";
 
 export const fetchLogin = createAsyncThunk(
   "auth/fetchLogin",
@@ -21,11 +21,19 @@ export const fetchLogin = createAsyncThunk(
 
 export const loginMe = createAsyncThunk(
   "auth/loginMe",
-  async function ({ email, password, rememberMe }, { dispatch }) {
-    const response = await authAPI.loginMe(email, password, rememberMe);
+  async function ({ email, password, rememberMe, captcha }, { dispatch }) {
+    const response = await authAPI.loginMe(
+      email,
+      password,
+      rememberMe,
+      captcha
+    );
     if (response.resultCode === 0) {
       dispatch(fetchLogin());
     } else {
+      if (response.resultCode === 10) {
+        dispatch(getCaptchaUrl());
+      }
       dispatch(inCorrectSubmit());
     }
   }
@@ -38,6 +46,14 @@ export const logOut = createAsyncThunk("auth/logOut", async function () {
   }
 });
 
+export const getCaptchaUrl = createAsyncThunk(
+  "auth/getCaptchaUrl",
+  async function () {
+    const response = await securityAPI.getCaptcha();
+    return response.url;
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -48,6 +64,7 @@ const authSlice = createSlice({
     status: null,
     error: null,
     initialized: false,
+    captchaUrl: null,
   },
   reducers: {
     inCorrectSubmit(state) {
@@ -88,6 +105,12 @@ const authSlice = createSlice({
       return {
         ...state,
         isAuth: false,
+      };
+    });
+    builder.addCase(getCaptchaUrl.fulfilled, (state, action) => {
+      return {
+        ...state,
+        captchaUrl: action.payload,
       };
     });
   },
